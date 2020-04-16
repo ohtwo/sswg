@@ -1,11 +1,11 @@
 # NIOPostgres: A NIO-based PostgreSQL Driver
 
 > **Note**: Since this proposal was published, `NIOPostgres` has been renamed to `PostgresNIO`.
-> 
-> For more context behind this change, see the following threads: [[1]](https://forums.swift.org/t/namespacing-of-packages-modules-especially-regarding-swiftnio/24726), [[2]](https://forums.swift.org/t/sswg-minimum-requirements-to-require-no-existing-clashes/24932)
+>
+> For more context behind this change, see the following threads: [\[1\]](https://forums.swift.org/t/namespacing-of-packages-modules-especially-regarding-swiftnio/24726), [\[2\]](https://forums.swift.org/t/sswg-minimum-requirements-to-require-no-existing-clashes/24932)
 
 * Proposal: [SSWG-0003](https://github.com/swift-server/sswg/tree/master/proposals/SSWG-0003.md)
-* Author(s): [Tanner Nelson](https://github.com/tanner0101)
+* Author\(s\): [Tanner Nelson](https://github.com/tanner0101)
 * Review Manager: TBD
 * Status: **Accepted as Sandbox Maturity**
 * Implementation: [vapor/nio-postgres](https://github.com/vapor/nio-postgres)
@@ -14,7 +14,7 @@
 
 ## Introduction
 
-`NIOPostgres` is a client package for connecting to, authorizing, and querying a PostgreSQL server. At the heart of this module are channel handlers for parsing and serializing messages in PostgreSQL's proprietary wire protocol. These channel handlers are combined in a request / response style connection type that provides a convenient, client-like interface for performing queries. Support for both simple (text) and parameterized (binary) querying is provided out of the box alongside a `PostgresData` type that handles conversion between PostgreSQL's wire format and native Swift types. 
+`NIOPostgres` is a client package for connecting to, authorizing, and querying a PostgreSQL server. At the heart of this module are channel handlers for parsing and serializing messages in PostgreSQL's proprietary wire protocol. These channel handlers are combined in a request / response style connection type that provides a convenient, client-like interface for performing queries. Support for both simple \(text\) and parameterized \(binary\) querying is provided out of the box alongside a `PostgresData` type that handles conversion between PostgreSQL's wire format and native Swift types.
 
 ## Motiviation
 
@@ -24,10 +24,10 @@ Most Swift implementations of Postgres clients are based on the [libpq](https://
 
 This package has four dependencies:
 
-- `swift-nio` from `2.0.0`
-- `swift-nio-ssl` from `2.0.0`
-- `swift-log` from `1.0.0`
-- `swift-metrics` from `1.0.0`
+* `swift-nio` from `2.0.0`
+* `swift-nio-ssl` from `2.0.0`
+* `swift-log` from `1.0.0`
+* `swift-metrics` from `1.0.0`
 
 This package has no additional system dependencies.
 
@@ -37,7 +37,7 @@ This section goes into detail on a few distinct types from this module to give a
 
 ### PostgresConnection
 
-The base connection type, `PostgresConnection`, is a wrapper around NIO's `ClientBootstrap` that initializes the pipeline to communicate via Postgres messages using a request / response pattern. 
+The base connection type, `PostgresConnection`, is a wrapper around NIO's `ClientBootstrap` that initializes the pipeline to communicate via Postgres messages using a request / response pattern.
 
 ```swift
 import NIOPostgres
@@ -66,11 +66,11 @@ print(conn) // PostgresConnection
 
 #### Closing
 
-A connection _must_ be closed before it deinitializes. `PostgresConnection` ensures this by asserting that it has been closed in its `deinit` handler. This is meant to help developers implement proper graceful shutdown early and avoid leaking memory or sockets. 
+A connection _must_ be closed before it deinitializes. `PostgresConnection` ensures this by asserting that it has been closed in its `deinit` handler. This is meant to help developers implement proper graceful shutdown early and avoid leaking memory or sockets.
 
 ### Simple Query
 
-Assuming we have an active, authenticated `PostgresConnection`, we can query the connected server using PostgreSQL's simple, text format. 
+Assuming we have an active, authenticated `PostgresConnection`, we can query the connected server using PostgreSQL's simple, text format.
 
 ```swift
 import NIOPostgres
@@ -113,7 +113,7 @@ print(foo) // "Earth"
 
 ### PostgresData
 
-`PostgresData` represents data both going to and coming from Postgres. 
+`PostgresData` represents data both going to and coming from Postgres.
 
 #### Input
 
@@ -148,22 +148,22 @@ print(data.string) // String?
 
 Here is a full list of types supported currently:
 
-- `Swift.String`
-- `Swift.Int`
-- `Swift.Int64`
-- `Swift.Int32`
-- `Swift.Int16`
-- `Swift.Int8`
-- `Swift.UInt`
-- `Swift.UInt64`
-- `Swift.UInt32`
-- `Swift.UInt16`
-- `Swift.UInt8`
-- `Swift.Float`
-- `Swift.Double`
-- `Foundation.Date`
-- `Foundation.Data`
-- `Foundation.UUID`
+* `Swift.String`
+* `Swift.Int`
+* `Swift.Int64`
+* `Swift.Int32`
+* `Swift.Int16`
+* `Swift.Int8`
+* `Swift.UInt`
+* `Swift.UInt64`
+* `Swift.UInt32`
+* `Swift.UInt16`
+* `Swift.UInt8`
+* `Swift.Float`
+* `Swift.Double`
+* `Foundation.Date`
+* `Foundation.Data`
+* `Foundation.UUID`
 
 ### PostgresRow
 
@@ -171,15 +171,15 @@ Both `simpleQuery` and `query` return an array of `PostgresRow`. Each row can be
 
 ```swift
 struct PostgresRow {
-	func column(_ column: String) -> PostgresData?
+    func column(_ column: String) -> PostgresData?
 }
 ```
 
-If no column with that name is contained by the row, `nil` is returned. Matching columns from _any_ table will be returned on a first match basis. 
+If no column with that name is contained by the row, `nil` is returned. Matching columns from _any_ table will be returned on a first match basis.
 
 ### PostgresError
 
-The `PostgresError` type represents errors thrown from both the Postgres package itself (during parsing, for example) and errors returned by the server:
+The `PostgresError` type represents errors thrown from both the Postgres package itself \(during parsing, for example\) and errors returned by the server:
 
 ```swift
 public enum PostgresError: Error {
@@ -199,10 +199,10 @@ let conn: PostgresConnection ...
 do {
     _ = try conn.simpleQuery("SELECT &").wait()
 } catch let error as PostgresError {
-	switch error.code {
-	case .syntaxError: ...
-	default: ...
-	}
+    switch error.code {
+    case .syntaxError: ...
+    default: ...
+    }
 }
 ```
 
@@ -217,7 +217,7 @@ protocol PostgresClient {
 }
 ```
 
-`PostgresConnection` is the only conformer that `NIOPostgres` provides, but it is expected that dependencies will add additional conformers. For example, a consumer of this package might add conformance to a _pool_ of connections, allowing for automatic recycling as needed, a crucial feature for long-running applications. 
+`PostgresConnection` is the only conformer that `NIOPostgres` provides, but it is expected that dependencies will add additional conformers. For example, a consumer of this package might add conformance to a _pool_ of connections, allowing for automatic recycling as needed, a crucial feature for long-running applications.
 
 #### Note on usage
 
@@ -240,9 +240,9 @@ final class UserController: Controller {
 
 Because this controller relies on `PostgresClient`, any of the following could be supplied to it:
 
-- Connected `PostgresConnection`
-- Pool of `PostgresConnection`s
-- Dummy conformer for testing
+* Connected `PostgresConnection`
+* Pool of `PostgresConnection`s
+* Dummy conformer for testing
 
 #### PostgresRequest
 
@@ -265,8 +265,8 @@ MD5 hashing is required for PostgreSQL's authentication flow. This module follow
 
 Here are some things that are still a work in progress:
 
-- **Prepared Statement API**: Postgres allows for parameterized queries to be re-used multiple times with different inputs. An API for doing this in NIO Postgres would be useful.
-- **PostgresRequest edge cases**: Finer grain input / output from this protocol would be useful in assisting with protocol edge cases. For example, sometimes a Postgres error message can signal request completion depending on state. 
+* **Prepared Statement API**: Postgres allows for parameterized queries to be re-used multiple times with different inputs. An API for doing this in NIO Postgres would be useful.
+* **PostgresRequest edge cases**: Finer grain input / output from this protocol would be useful in assisting with protocol edge cases. For example, sometimes a Postgres error message can signal request completion depending on state. 
 
 ### How to use
 
@@ -280,8 +280,9 @@ Then add `"NIOPostgres"` to your module target's dependencies array.
 
 ### Seeking Feedback
 
-* If anything, what does this proposal *not cover* that you will definitely need?
+* If anything, what does this proposal _not cover_ that you will definitely need?
 * If anything, what could we remove from this and still be happy?
 * API-wise: what do you like, what don't you like?
 
 Feel free to post feedback as response to this post and/or GitHub issues on [vapor/nio-postgres](https://github.com/vapor/nio-postgres).
+

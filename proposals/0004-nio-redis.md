@@ -2,24 +2,25 @@
 
 > **Note**: Since this proposal was published, the module `RedisNIO` has been renamed to `RediStack`.
 >
-> The renamed GitLab repo is found at https://gitlab.com/mordil/swift-redi-stack. The GitHub Mirror is found at https://github.com/mordil/swift-redi-stack
-> 
-> For more context behind this change, see the following threads: [[1]](https://forums.swift.org/t/namespacing-of-packages-modules-especially-regarding-swiftnio/24726), [[2]](https://forums.swift.org/t/sswg-minimum-requirements-to-require-no-existing-clashes/24932), [[3]](https://forums.swift.org/t/redisnio-name-brainstorm/26521/)
+> The renamed GitLab repo is found at [https://gitlab.com/mordil/swift-redi-stack](https://gitlab.com/mordil/swift-redi-stack). The GitHub Mirror is found at [https://github.com/mordil/swift-redi-stack](https://github.com/mordil/swift-redi-stack)
+>
+> For more context behind this change, see the following threads: [\[1\]](https://forums.swift.org/t/namespacing-of-packages-modules-especially-regarding-swiftnio/24726), [\[2\]](https://forums.swift.org/t/sswg-minimum-requirements-to-require-no-existing-clashes/24932), [\[3\]](https://forums.swift.org/t/redisnio-name-brainstorm/26521/)
 
 * Proposal: [SSWG-0004](https://github.com/swift-server/sswg/blob/master/proposals/SSWG-0004.md)
 * Authors: [Nathan Harris](https://github.com/Mordil)
-* Sponsor(s): Vapor
+* Sponsor\(s\): Vapor
 * Status: **Accepted as Sandbox Maturity**
-* Implementation: https://gitlab.com/mordil/swift-redis-nio-client ([GitHub Mirror](https://github.com/mordil/swift-redis-nio-client))
+* Implementation: [https://gitlab.com/mordil/swift-redis-nio-client](https://gitlab.com/mordil/swift-redis-nio-client) \([GitHub Mirror](https://github.com/mordil/swift-redis-nio-client)\)
 * Forum Threads: [Pitch](https://forums.swift.org/t/swiftnio-redis-client), [Discussion](https://forums.swift.org/t/discussion-nioredis-nio-based-redis-driver/22455/)
-* Revisions: [[1]](https://github.com/swift-server/sswg/blob/f3bdea501b7c32d4cee64c989525dcafed247971/proposals/0004-nio-redis.md)
+* Revisions: [\[1\]](https://github.com/swift-server/sswg/blob/f3bdea501b7c32d4cee64c989525dcafed247971/proposals/0004-nio-redis.md)
 * Decision Notes: [Rationale](https://forums.swift.org/t/june-27th-2019/26580)
 
 ## Package Description
+
 Non-blocking Swift driver for Redis built on SwiftNIO.
 
 |  |  |
-|--|--|
+| :--- | :--- |
 | **Package Name** | `swift-redis-nio-client` |
 | **Module Name** | `RedisNIO` |
 | **Proposed Maturity Level** | [Incubating](https://github.com/swift-server/sswg/blob/master/process/incubation.md#process-diagram) |
@@ -28,7 +29,7 @@ Non-blocking Swift driver for Redis built on SwiftNIO.
 
 ## Introduction
 
-**RedisNIO** is a module providing general implementations for connecting to a Redis instance and executing commands against it using Redis' proprietary [**Re**dis **S**eralization **P**rotocol (RESP)](https://redis.io/topics/protocol).
+**RedisNIO** is a module providing general implementations for connecting to a Redis instance and executing commands against it using Redis' proprietary [**Re**dis **S**eralization **P**rotocol \(RESP\)](https://redis.io/topics/protocol).
 
 These types are designed to work in a request / response loop, representing individual connections to Redis.
 
@@ -42,13 +43,13 @@ All of the currently maintained libraries either have framework specific depende
 
 ### Existing Solutions
 
-- [Kitura](https://github.com/IBM-Swift/Kitura-redis)
-- [Vapor](https://github.com/vapor/redis)
-- Noze.io
-    - [nio-redis](https://github.com/SwiftNIOExtras/swift-nio-redis) - RESP encoding/decoding + pipeline setup
-    - [nio-redis-client](https://github.com/NozeIO/swift-nio-redis-client) - API on top of the RESP encoding/decoding library
-    - [redi/s](https://github.com/NozeIO/redi-s) - Redi/S server
-- [RedisClient](https://github.com/reswifq/redis-client)
+* [Kitura](https://github.com/IBM-Swift/Kitura-redis)
+* [Vapor](https://github.com/vapor/redis)
+* Noze.io
+  * [nio-redis](https://github.com/SwiftNIOExtras/swift-nio-redis) - RESP encoding/decoding + pipeline setup
+  * [nio-redis-client](https://github.com/NozeIO/swift-nio-redis-client) - API on top of the RESP encoding/decoding library
+  * [redi/s](https://github.com/NozeIO/redi-s) - Redi/S server
+* [RedisClient](https://github.com/reswifq/redis-client)
 
 ## Proposed Solution
 
@@ -57,9 +58,10 @@ All of the currently maintained libraries either have framework specific depende
 ### RESP Specification
 
 As a low level library, this package implements the **RESP** specification by providing:
-  - an intermediate representation (`RESPValue`)
-  - a protocol for conforming user-defined types to the intermediate (`RESPValueConvertible`)
-  - a `RESPTranslator` that handles the conversion to/from the intermediate representation
+
+* an intermediate representation \(`RESPValue`\)
+* a protocol for conforming user-defined types to the intermediate \(`RESPValueConvertible`\)
+* a `RESPTranslator` that handles the conversion to/from the intermediate representation
 
 These types should be able to be used independently of any NIO pipeline or some sort of connection to Redis.
 
@@ -100,7 +102,7 @@ public enum RESPTranslator {
 
 [`RESPValue`](https://gitlab.com/Mordil/swift-redis-nio-client/blob/master/Sources/RedisNIO/RESP/RESPValue.swift) represents the different types outlined in Redis' protocol as an **enum**.
 
-Even though Redis defines two storage types as "String" (`simpleString` and `bulkString`) they are fundamentally byte blobs - which are represented as NIO's `ByteBuffer` in Swift.
+Even though Redis defines two storage types as "String" \(`simpleString` and `bulkString`\) they are fundamentally byte blobs - which are represented as NIO's `ByteBuffer` in Swift.
 
 ```swift
 public enum RESPValue {
@@ -126,15 +128,16 @@ public protocol RESPValueConvertible {
 ```
 
 Default conformance is provided for:
- - `Optional where Wrapped: RESPValueConvertible`
- - `Array where Element: RESPValueConvertible`
- - `ContiguousArray where Element: RESPValueConvertible`
- - `RedisError`
- - `RESPValue`
- - `String`
- - `FixedWidthInteger` (`Int`, `Int8`, `Int16`, ...)
- - `Double`
- - `Float`
+
+* `Optional where Wrapped: RESPValueConvertible`
+* `Array where Element: RESPValueConvertible`
+* `ContiguousArray where Element: RESPValueConvertible`
+* `RedisError`
+* `RESPValue`
+* `String`
+* `FixedWidthInteger` \(`Int`, `Int8`, `Int16`, ...\)
+* `Double`
+* `Float`
 
 ### NIO Integration
 
@@ -313,7 +316,7 @@ While `RedisConnection` is the designed _concrete_ common currency - the goal is
 
 To this effect, the `RedisClient` protocol defines the base-level implementation requirements for any Redis connection, which `RedisConnection` conforms to.
 
-Additionally, since Redis (as of writing this proposal) has over 200 separate commands (with some sub-commands), there is a practical desire to have a type-safe and ergonomic API around the `send(command:with:)` method.
+Additionally, since Redis \(as of writing this proposal\) has over 200 separate commands \(with some sub-commands\), there is a practical desire to have a type-safe and ergonomic API around the `send(command:with:)` method.
 
 To serve this need, `RedisClient` has Swift-y convenience extension methods that map to specific Redis commands.
 
@@ -362,11 +365,11 @@ let value = connection.set("my_key", to: 3)
 
 **RedisNIO** comes with basic `SwiftMetrics` integration for the following data points:
 
-- (Counter) # of failed requests
-- (Counter) # of successful requests
-- (Counter) # of connections made
-- (Gauge) # of active connections
-- (Timer) Round-trip time in `ms` to complete a request
+* \(Counter\) \# of failed requests
+* \(Counter\) \# of successful requests
+* \(Counter\) \# of connections made
+* \(Gauge\) \# of active connections
+* \(Timer\) Round-trip time in `ms` to complete a request
 
 They are defined under a `RedisMetrics` struct, and are labeled with the `RedisMetrics.Label` enum for referencing within metric library integrations.
 
@@ -375,19 +378,22 @@ They are defined under a `RedisMetrics` struct, and are labeled with the `RedisM
 Until now, packages through the SSWG process have been accepted as _Sandbox_ maturity - so it's appropriate to justify why **RedisNIO** might be considered mature enough for _Incubating_.
 
 This package supports:
-- Logging through **SwiftLog**
-- Metrics through **SwiftMetrics**
-- ~100 (and counting!) of Redis' commands as convenient extension methods
-- 130+ unit tests, including RESP encoding / decoding and all command extensions
+
+* Logging through **SwiftLog**
+* Metrics through **SwiftMetrics**
+* ~100 \(and counting!\) of Redis' commands as convenient extension methods
+* 130+ unit tests, including RESP encoding / decoding and all command extensions
 
 In addition, it meets the following criteria according to the [SSWG Incubation Process](https://github.com/swift-server/sswg/blob/master/process/incubation.md):
-- [Apache 2 license](https://gitlab.com/Mordil/swift-redis-nio-client/blob/master/LICENSE.txt)
-- [Swift Code of Conduct](https://gitlab.com/Mordil/swift-redis-nio-client/blob/master/CODE_OF_CONDUCT.md)
-- [Contributing Guide](https://gitlab.com/Mordil/swift-redis-nio-client/blob/master/CONTRIBUTING.md)
-- [SSWG Member Access](https://gitlab.com/Mordil/swift-redis-nio-client/project_members) (including GitHub mirror)
-- [CI builds](https://gitlab.com/Mordil/swift-redis-nio-client/pipelines)
-- [Generated API Docs](https://mordil.gitlab.io/swift-redis-nio-client/)
+
+* [Apache 2 license](https://gitlab.com/Mordil/swift-redis-nio-client/blob/master/LICENSE.txt)
+* [Swift Code of Conduct](https://gitlab.com/Mordil/swift-redis-nio-client/blob/master/CODE_OF_CONDUCT.md)
+* [Contributing Guide](https://gitlab.com/Mordil/swift-redis-nio-client/blob/master/CONTRIBUTING.md)
+* [SSWG Member Access](https://gitlab.com/Mordil/swift-redis-nio-client/project_members) \(including GitHub mirror\)
+* [CI builds](https://gitlab.com/Mordil/swift-redis-nio-client/pipelines)
+* [Generated API Docs](https://mordil.gitlab.io/swift-redis-nio-client/)
 
 Vapor has also written a higher-level, framework agnostic, library [`RedisKit`](https://github.com/vapor/redis-kit) built from **RedisNIO** that will be the foundation for their Redis solution in Vapor 4.
 
 This is in part because **RedisNIO** is almost a drop-in replacement for their implementation, with the current version being used by several dozens of developers daily.
+

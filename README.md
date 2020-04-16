@@ -1,4 +1,4 @@
-# Swift Server Work Group (SSWG)
+# Swift Server Work Group \(SSWG\)
 
 The Swift Server work group is a steering team that promotes the use of Swift for developing and deploying server applications. The Swift Server work group will:
 
@@ -10,10 +10,10 @@ Analogous to the Core Team for Swift, the work group is responsible for providin
 
 The current Swift Server work group consists of the following people:
 
-* Logan Wright ([@loganwright](https://github.com/loganwright), Vapor)
-* Tanner Nelson ([@tanner0101](https://forums.swift.org/u/tanner0101), Vapor)
-* Johannes Weiss ([@johannesweiss](https://forums.swift.org/u/johannesweiss), Apple)
-* Tom Doron ([@tomerd](https://forums.swift.org/u/tomerd), Apple)
+* Logan Wright \([@loganwright](https://github.com/loganwright), Vapor\)
+* Tanner Nelson \([@tanner0101](https://forums.swift.org/u/tanner0101), Vapor\)
+* Johannes Weiss \([@johannesweiss](https://forums.swift.org/u/johannesweiss), Apple\)
+* Tom Doron \([@tomerd](https://forums.swift.org/u/tomerd), Apple\)
 
 ## Communication
 
@@ -57,8 +57,9 @@ See [Swift Server Ecosystem Index](https://swift.org/server/#projects)
 
 ## Meeting Time
 
-The SSWG meets on the 1st and 3rd Thursday of every month at 9:30AM PT (USA Pacific)
+The SSWG meets on the 1st and 3rd Thursday of every month at 9:30AM PT \(USA Pacific\)
 
 ## Meeting Notes
 
 All meeting notes are posted to the [Swift Server forums](https://forums.swift.org/c/server/workgroup-meeting-notes).
+

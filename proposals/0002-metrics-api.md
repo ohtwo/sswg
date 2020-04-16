@@ -2,7 +2,7 @@
 
 * Proposal: [SSWG-0002](https://github.com/swift-server/sswg/blob/master/proposals/SSWG-0002.md)
 * Authors: [Tomer Doron](https://github.com/tomerd)
-* Sponsor(s): Apple
+* Sponsor\(s\): Apple
 * Review Manager: [Tanner Nelson](https://github.com/tanner0101)
 * Status: **Accepted as Sandbox Maturity**
 * Implementation: [tomerd/swift-server-metrics-api-proposal](https://github.com/tomerd/swift-server-metrics-api-proposal/)
@@ -12,12 +12,12 @@
 ## Package Description
 
 |  |  |
-|--|--|
+| :--- | :--- |
 | **Package Name** | `swift-metrics` |
 | **Module Name** | `Metrics` |
 | **Proposed Maturity Level** | [Sandbox](https://github.com/swift-server/sswg/blob/master/process/incubation.md#process-diagram) |
 | **License** | [Apache 2](https://www.apache.org/licenses/LICENSE-2.0.html) |
-| **Dependencies** | *none* |
+| **Dependencies** | _none_ |
 
 ## Introduction
 
@@ -37,7 +37,7 @@ The proposed solution is to introduce the following types that encapsulate metri
 counter.increment(100)
 ```
 
-`Recorder`: A recorder collects observations within a time window (usually things like response sizes) and can provides aggregated information about the data sample, for example count, sum, min, max and various quantiles.
+`Recorder`: A recorder collects observations within a time window \(usually things like response sizes\) and can provides aggregated information about the data sample, for example count, sum, min, max and various quantiles.
 
 ```swift
 recorder.record(100)
@@ -49,7 +49,7 @@ recorder.record(100)
 gauge.record(100)
 ```
 
-`Timer`: A timer collects observations within a time window (usually things like request durations) and provides aggregated information about the data sample, for example min, max and various quantiles. It is similar to a `Recorder` but specialized for values that represent durations.
+`Timer`: A timer collects observations within a time window \(usually things like request durations\) and provides aggregated information about the data sample, for example min, max and various quantiles. It is similar to a `Recorder` but specialized for values that represent durations.
 
 ```swift
 timer.recordMilliseconds(100)
@@ -143,7 +143,7 @@ Following is the user facing `Timer` API. It must have reference semantics, and 
 ```swift
 public class Timer: TimerHandler {
     var handler: TimerHandler
-    
+
     public let label: String
     public let dimensions: [(String, String)]
 
@@ -153,7 +153,7 @@ public class Timer: TimerHandler {
 }
 ```
 
-## Implementing a metrics backend (eg prometheus client library)
+## Implementing a metrics backend \(eg prometheus client library\)
 
 An implementation of a metric backend needs to conform to the `MetricsFactory` protocol:
 
@@ -278,3 +278,4 @@ class SimpleMetrics: MetricsFactory {
     }
 }
 ```
+
